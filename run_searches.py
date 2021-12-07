@@ -1,6 +1,5 @@
 import sys
 from a_star import a_star
-from iterative_a_star import iterative_deepening_a_star
 from read_instance import import_instance
 from id_a_star import id_a_star
 

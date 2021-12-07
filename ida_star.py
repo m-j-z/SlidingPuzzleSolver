@@ -1,6 +1,5 @@
 import copy
 from a_star import compute_heuristics, get_index, swap
-from timeout import timeout
 
 
 def id_a_star(starts, goals, blank_start, blank_goal):

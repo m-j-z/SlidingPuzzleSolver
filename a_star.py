@@ -1,6 +1,5 @@
 import heapq
 import copy
-from timeout import timeout
 
 
 def move(loc, d):

@@ -47,6 +47,7 @@ if __name__ == '__main__':
                     except futures.TimeoutError:
                         print('Timed out!')
                     else:
+                        print('Finished ' + search)
                         paths.append(path)
                     executor._threads.clear()
                     futures.thread._threads_queues.clear()
@@ -59,6 +60,7 @@ if __name__ == '__main__':
                     except futures.TimeoutError:
                         print('Timed out!')
                     else:
+                        print('Finished ' + search)
                         paths.append(path)
                     executor._threads.clear()
                     futures.thread._threads_queues.clear()

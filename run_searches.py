@@ -28,4 +28,4 @@ if __name__ == '__main__':
                 path = a_star(starts, goals, blank_start, blank_goal)
 
             if search == 'IDA*':
-                path = id_a_star(starts, goals, blank_start, blank_goal)
+                path = id_a_star(starts, goals)

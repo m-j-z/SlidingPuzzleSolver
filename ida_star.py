@@ -2,7 +2,7 @@ import copy
 from a_star import compute_heuristics, get_index, swap
 
 
-def id_a_star(starts, goals, blank_start, blank_goal):
+def id_a_star(starts, goals):
     
     bound = compute_heuristics(starts, goals)
     path = [starts]

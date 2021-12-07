@@ -1,5 +1,7 @@
 import heapq
 import copy
+from timeout import timeout
+
 
 def move(loc, d):
     directions = [(0, -1), (1, 0), (0, 1), (-1, 0)]

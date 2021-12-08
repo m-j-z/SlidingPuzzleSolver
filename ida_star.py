@@ -1,17 +1,29 @@
 import copy
+import time
 from a_star import compute_heuristics, get_index, swap
+
+# in seconds
+timeout = 2
 
 
 def id_a_star(starts, goals):
     
     bound = compute_heuristics(starts, goals)
     path = [starts]
-    
+
+    start_time = time.process_time()
+
     while True:
-        t = a_star(path, goals, 0, bound)
-        if t < 0:
+
+        t = a_star(path, goals, 0, bound, start_time)
+        if t == -1:
+            now = time.process_time() - start_time
+            print('IDA* took ' + str(now) + ' seconds to complete.')
             return path
         if t == float('inf'):
+            return None
+        if t == float('-inf'):
+            print('Timed out!')
             return None
         bound = t
     
@@ -36,7 +48,11 @@ def get_successors(curr):
     return successors
 
 
-def a_star(path, goals, g, bound):
+def a_star(path, goals, g, bound, start_time):
+
+    now = time.process_time() - start_time
+    if now > timeout:
+        return float('-inf')
     
     node = path[-1]
     f = g + compute_heuristics(node, goals)
@@ -49,8 +65,10 @@ def a_star(path, goals, g, bound):
     for successor in successors:
         if successor not in path:
             path.append(copy.deepcopy(successor))
-            t = a_star(path, goals, g + 1, bound)
-            if t < 0:
+            t = a_star(path, goals, g + 1, bound, start_time)
+            if t == float('-inf'):
+                return float('-inf')
+            if t == -1:
                 return -1
             if t < m:
                 m = t

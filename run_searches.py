@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    time_out = 2  # in seconds
+    time_out = 5  # in seconds
 
     for file in sorted(glob.glob(args.instance)):
 
@@ -57,19 +57,10 @@ if __name__ == '__main__':
                     futures.thread._threads_queues.clear()
 
             if search == 'IDA*':
-                with futures.ThreadPoolExecutor(max_workers=1) as executor:
-                    future = executor.submit(id_a_star, starts, goals)
-                    try:
-                        path = future.result(time_out)
-                    except futures.TimeoutError:
-                        print('Timed out!')
-                        paths.append(None)
-                    else:
-                        print('Finished ' + search)
-                        paths.append(path)
-                    executor._threads.clear()
-                    futures.thread._threads_queues.clear()
-                    future.cancel()
+                path = id_a_star(starts, goals)
+                paths.append(path)
+                if path is not None:
+                    print('Finished IDA*')
 
         if not args.batch:
             for x in range(len(searches)):

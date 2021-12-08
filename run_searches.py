@@ -1,9 +1,12 @@
 import argparse
 import glob
 import concurrent.futures as futures
+import sys
+
 from a_star import a_star
-from read_instance import import_instance
 from ida_star import id_a_star
+from read_instance import import_instance
+from visualize import visualize_paths
 
 
 def print_instance(instance):
@@ -23,7 +26,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    time_out = 30  # in seconds
+    time_out = 2  # in seconds
 
     for file in sorted(glob.glob(args.instance)):
 
@@ -37,7 +40,7 @@ if __name__ == '__main__':
         searches = ['A*', 'IDA*']
         paths = []
         for search in searches:
-            print('**** ' + search + ' ****')
+            print('**** Starting ' + search + ' Search ****')
 
             if search == 'A*':
                 with futures.ThreadPoolExecutor(max_workers=1) as executor:
@@ -46,6 +49,7 @@ if __name__ == '__main__':
                         path = future.result(time_out)
                     except futures.TimeoutError:
                         print('Timed out!')
+                        paths.append(None)
                     else:
                         print('Finished ' + search)
                         paths.append(path)
@@ -59,8 +63,16 @@ if __name__ == '__main__':
                         path = future.result(time_out)
                     except futures.TimeoutError:
                         print('Timed out!')
+                        paths.append(None)
                     else:
                         print('Finished ' + search)
                         paths.append(path)
                     executor._threads.clear()
                     futures.thread._threads_queues.clear()
+                    future.cancel()
+
+        if not args.batch:
+            for x in range(len(searches)):
+                if paths[x] is None:
+                    continue
+                visualize_paths(paths[x], searches[x])

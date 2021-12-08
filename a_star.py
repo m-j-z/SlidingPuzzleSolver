@@ -1,5 +1,9 @@
 import heapq
 import copy
+import time
+
+# in seconds
+timeout = 2
 
 
 def move(loc, d):
@@ -55,17 +59,25 @@ def compare_nodes(n1, n2):
     return n1['g_val'] + n1['h_val'] < n2['g_val'] + n2['h_val']
 
 
-def a_star(starts, goals, blank_start, blank_goal):
+def a_star(starts, goals, blank_start):
     open_list = []
     closed_list = dict()
     root = {'loc': blank_start, 'g_val': 0, 'h_val': compute_heuristics(starts, goals), 'timestep': 0,
             'positions': copy.deepcopy(starts), 'parent': None}
     push_node(open_list, root)
     closed_list[(root['loc'], root['timestep'])] = root
+
+    start_time = time.process_time()
     while len(open_list) > 0:
         curr = pop_node(open_list)
 
+        now = time.process_time() - start_time
+        if now > timeout:
+            print('Timed out!')
+            return None
+
         if curr['positions'] == goals:
+            print('A* took ' + str(now) + ' seconds to complete.')
             return get_path(curr)
         
         for d in range(4):

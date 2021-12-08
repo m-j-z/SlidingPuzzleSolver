@@ -43,18 +43,10 @@ if __name__ == '__main__':
             print('**** Starting ' + search + ' Search ****')
 
             if search == 'A*':
-                with futures.ThreadPoolExecutor(max_workers=1) as executor:
-                    future = executor.submit(a_star, starts, goals, blank_start, blank_goal)
-                    try:
-                        path = future.result(time_out)
-                    except futures.TimeoutError:
-                        print('Timed out!')
-                        paths.append(None)
-                    else:
-                        print('Finished ' + search)
-                        paths.append(path)
-                    executor._threads.clear()
-                    futures.thread._threads_queues.clear()
+                path = a_star(starts, goals, blank_start)
+                paths.append(path)
+                if path is not None:
+                    print('Finished A*')
 
             if search == 'IDA*':
                 path = id_a_star(starts, goals)

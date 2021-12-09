@@ -20,7 +20,7 @@ def swap(starts, curr, child):
 def get_index(li, val):
     for i, x in enumerate(li):
         if val in x:
-            return (i, x.index(val))
+            return i, x.index(val)
     
 
 def compute_heuristics(current, goals):

@@ -1,33 +1,10 @@
 import copy
 import time
+
 from a_star import compute_heuristics, get_index, swap
 
 # in seconds
 timeout = 2
-
-
-def id_a_star(starts, goals):
-    
-    bound = compute_heuristics(starts, goals)
-    path = [starts]
-
-    start_time = time.process_time()
-
-    while True:
-
-        t = a_star(path, goals, 0, bound, start_time)
-        if t == -1:
-            now = time.process_time() - start_time
-            print('IDA* took ' + str(now) + ' seconds to complete.')
-            return path
-        if t == float('inf'):
-            return None
-        if t == float('-inf'):
-            print('Timed out!')
-            return None
-        bound = t
-    
-    return None
 
 
 def is_goal(curr, goals):
@@ -46,6 +23,29 @@ def get_successors(curr):
         swap(tmp, index, next_index)
         successors.append(copy.deepcopy(tmp))
     return successors
+
+
+def id_a_star(starts, goals):
+    bound = compute_heuristics(starts, goals)
+    path = [starts]
+
+    start_time = time.process_time()
+
+    while True:
+
+        t = a_star(path, goals, 0, bound, start_time)
+        if t == -1:
+            now = time.process_time() - start_time
+            print('IDA* took ' + str(now) + ' seconds to complete.')
+            return path
+        if t == float('inf'):
+            return None
+        if t == float('-inf'):
+            print('Timed out!')
+            return None
+        bound = t
+
+    return None
 
 
 def a_star(path, goals, g, bound, start_time):

@@ -25,8 +25,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    time_out = 5  # in seconds
-
     for file in sorted(glob.glob(args.instance)):
 
         print('**** IMPORT INSTANCE ****')

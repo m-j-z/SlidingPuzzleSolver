@@ -3,7 +3,7 @@ import time
 from a_star import swap
 
 # in seconds
-timeout = 60
+timeout = 180
 
 
 def dac_a_star(starts, goals):
@@ -115,14 +115,14 @@ def dac_a_star(starts, goals):
 
                 path = [path]
                 print("final")
-                path = saved_path
+                #path = saved_path
                 print(path)
 
                 print(goals)
                 print(losttop)
 
                 iter_height += 1
-                #t = oldb
+                t = oldb
 
 
 
@@ -277,7 +277,7 @@ def dac_a_star(starts, goals):
                 #path = saved_path
 
                 iter_width += 1
-                t = oldb
+                #t = oldb
 
 
         if t == -1:

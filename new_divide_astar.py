@@ -68,53 +68,74 @@ def dac_a_star(starts, goals):
 
                 height -= 1
                 pathlen = len(path)
-                started = path[pathlen - 1]
+                started = copy.deepcopy(path[pathlen - 1])
                 print("ended starting to add losttop")
                 print(started[0])
-                losttop.insert(0, copy.deepcopy(started[0]))
+
                 print(losttop)
                 print("fin lost top")
                 print("new node is ")
+                print("path is ")
+
                 saved_path = copy.deepcopy(path)
+                print(saved_path)
                 #rebuild
                 s_iter_height = iter_height
-                while s_iter_height is not 0:
-                    print("here")
-                    to_tinsert = losttop.pop(0)
-                    for tomod in path:
-                        tomod.insert(0,to_tinsert.copy())
-                    s_iter_height -= 1
                 s_iter_width = iter_width
-                while s_iter_width is not 0:
-                    to_linsert = lostleft[len(lostleft) - iter_width]
-                    to_l_rebuild = []
-                    for l in to_linsert:
-                        to_l_rebuild.append(l[0])
-                    print("rebuild")
-                    print(to_l_rebuild)
-                    print(len(saved_path))
-                    widd = len(saved_path[0])
-                    for i in range(len(saved_path)):
-                        #print(path[i])
-                        #print(path[i][0])
-                        for w in range(widd):
-                            saved_path[i][w].insert(0,to_l_rebuild[w])
-                    s_iter_width -= 1
+
+                while s_iter_height != 0 or s_iter_width != 0:
+                    top_shaved = False
+                    if s_iter_width != 0:
+                        print("even shape left shave")
+                        to_linsert = lostleft[len(lostleft) - s_iter_width]
+                        to_l_rebuild = []
+                        for l in to_linsert:
+                            to_l_rebuild.append(l[0])
+                        print("rebuild")
+                        print(to_l_rebuild)
+                        print(len(path))
+                        widd = len(path[0])
+                        for i in range(len(path)):
+                            #print(path[i])
+                            #print(path[i][0])
+                            for w in range(widd):
+                                path[i][w].insert(0, to_l_rebuild[w])
+                        s_iter_width -= 1
+                    print("After math left shave is ")
+                    if s_iter_height != 0:
+                        print("even shape top shave")
+                        to_tinsert = losttop[s_iter_height-1]
+                        for tomod in path:
+                            tomod.insert(0,to_tinsert.copy())
+                        s_iter_height -= 1
+                        top_shaved = True
+                    print("After math top shave is ")
+                    print(path)
+
+
                 print("saved path is ")
                 print(saved_path)
-                path_list.append((saved_path.copy()))
 
-                path = started.copy()
+                path_list.append((path.copy()))
+                losttop.insert(0, copy.deepcopy(started[0]))
+                path = copy.deepcopy(started)
+
+                print("top path is ")
                 print(path)
                 #new new path
+                print("to remove top is")
                 remove = path.pop(0)
+                print(remove)
                 goals.pop(0)
                 for w in remove:
-                    exist.remove(w)
-
+                    if str(w) in exist:
+                        exist.remove(w)
+                print("exist is now")
+                print(exist)
 
                 path = [path]
                 print("final")
+
                 #path = saved_path
                 print(path)
 
@@ -151,43 +172,54 @@ def dac_a_star(starts, goals):
                 print("Finalizing")
                 print("lost top")
                 print(losttop)
+                print(lostleft)
+                print("Iters are ")
+                print(iter_height)
+                print(iter_width)
 
-                while iter_height is not 0:
-                    print("here")
-                    to_tinsert = losttop.pop(0)
-                    for tomod in path:
-                        tomod.insert(0,to_tinsert.copy())
-                    iter_height -= 1
-                if iter_width is not 0:
-                    to_linsert = lostleft.pop(0)
-                    to_l_rebuild = []
-                    for l in to_linsert:
-                        to_l_rebuild.append(l[0])
-                    print("rebuild")
-                    print(to_l_rebuild)
-                    print(len(path))
-                    widd = len(path[0])
-                    for i in range(len(path)):
-                        print(path[i])
-                        print(path[i][0])
-                        for w in range(widd):
-                            path[i][w].insert(0,to_l_rebuild[w])
+                s_iter_height = iter_height
+                s_iter_width = iter_width
 
-                    for w in reversed(path_list):
-                        for y in reversed(w):
-                            print("ptinign y")
-                            print(y)
-                            to_finalize = y.copy()
-                            path.insert(0,to_finalize)
+                while s_iter_height > 0 or s_iter_width > 0:
+                    top_shaved = False
+                    if s_iter_height != 0:
+                        print("even shape top shave")
+                        to_tinsert = losttop.pop(0)
+                        for tomod in path:
+                            tomod.insert(0, to_tinsert.copy())
+                        s_iter_height -= 1
+                        top_shaved = True
+                    print("After math top shave is ")
+                    print(path)
+                    if s_iter_width != 0:
+                        print("even shape left shave")
+                        to_linsert = lostleft.pop(0)
+                        to_l_rebuild = []
+                        for l in to_linsert:
+                            to_l_rebuild.append(l[0])
+                        print("rebuild")
+                        print(to_l_rebuild)
+                        print(len(path))
+                        widd = len(path[0])
+                        for i in range(len(path)):
+                            # print(path[i])
+                            # print(path[i][0])
+                            for w in range(widd):
+                                path[i][w].insert(0, to_l_rebuild[w])
+                        s_iter_width -= 1
+
+                    print("After math left shave is ")
+                    print(path)
+                    print("Iter is not")
+                    print(iter_height)
+                    print(iter_width)
+
 
 
                     # for i in path:
                     #     to_pop = to_linsert.pop(0).copy()
                     #     for s in i:
                     #         s.insert
-
-                    iter_width -= 1
-
 
 
 
@@ -226,12 +258,14 @@ def dac_a_star(starts, goals):
 
                 width -= 1
                 pathlen = len(path)
-                started = path[pathlen - 1]
-                lostleft.insert(0, copy.deepcopy(started))
+                started = copy.deepcopy(path[pathlen - 1])
+                print("started is")
+                print(started)
 
                 print("fin lost left")
                 print("new node is ")
                 saved_path = copy.deepcopy(path)
+
                 #rebuild
                 # s_iter_height = iter_height
                 # if s_iter_height != 0:
@@ -248,36 +282,118 @@ def dac_a_star(starts, goals):
                 #         # print(path[i][0])
                 #         for w in range(widd):
                 #             saved_path[i][w].insert(0, to_l_rebuild[w])
+                s_iter_height = iter_height
+                s_iter_width = iter_width
+                # while s_iter_height is not 0:
+                #     print("even shape top shave")
+                #     to_tinsert = losttop[s_iter_height-1]
+                #     for tomod in saved_path:
+                #         tomod.insert(0,to_tinsert.copy())
                 #     s_iter_height -= 1
+                # s_iter_width = iter_width
+                # while s_iter_width is not 0:
+                #     print("even shape left shave")
+                #     to_linsert = lostleft[len(lostleft) - s_iter_width]
+                #     to_l_rebuild = []
+                #     for l in to_linsert:
+                #         to_l_rebuild.append(l[0])
+                #     print("rebuild")
+                #     print(to_l_rebuild)
+                #     print(len(saved_path))
+                #     widd = len(saved_path[0])
+                #     for i in range(len(saved_path)):
+                #         #print(path[i])
+                #         #print(path[i][0])
+                #         for w in range(widd):
+                #             saved_path[i][w].insert(0,to_l_rebuild[w])
+                #     s_iter_width -= 1
+
+                while s_iter_height != 0 or s_iter_width != 0:
+                    if s_iter_width != 0:
+                        print("even shape left shave")
+                        to_linsert = lostleft[len(lostleft) - s_iter_width]
+                        to_l_rebuild = []
+                        for l in to_linsert:
+                            to_l_rebuild.append(l[0])
+                        print("rebuild")
+                        print(to_l_rebuild)
+                        print(len(saved_path))
+                        widd = len(saved_path[0])
+                        for i in range(len(saved_path)):
+                            #print(path[i])
+                            #print(path[i][0])
+                            for w in range(widd):
+                                path[i][w].insert(0,to_l_rebuild[w])
+                        s_iter_width -= 1
+                    print("After math left shave is ")
+                    if s_iter_height != 0:
+                        print("even shape top shave")
+                        to_tinsert = losttop[s_iter_height-1]
+                        for tomod in path:
+                            tomod.insert(0,to_tinsert.copy())
+                        s_iter_height -= 1
+                    print("After math top shave is ")
+                    print(path)
+
+                    print(path)
+
+
+                #test
+                # for w in reversed(path_list):
+                #     for y in reversed(w):
+                #         print("ptinign y")
+                #         print(y)
+                #         to_finalize = y.copy()
+                #         saved_path.insert(0, to_finalize)
+                print("to remove is")
+                remove = []
+                for mini in path:
+                    remove.append(mini[0].copy())
+                print(remove)
+                #goals.pop(0)
+                for w in remove:
+                    if str(w) in exist:
+                        exist.remove(w)
+                print("exist is now")
+                print(exist)
+
+                #f_test_path = copy.deepcopy(saved_path)
+                print("left path is")
+                print(path)
                 print("saved path is ")
                 print(saved_path)
 
 
 
 
-                path_list.append(saved_path.copy())
+                path_list.append(path.copy())
                 path = started.copy()
-
+                lostleft.insert(0, copy.deepcopy(started))
                 print("old path is ")
                 print(path)
+                #create new path for later
                 for p in range(width):
 
-                    remove = path[p].pop(0)
-                    exist.remove(remove)
-                    print(path[p][0])
+                     remove = path[p].pop(0)
+                     exist.remove(remove)
+                     print(path[p][0])
 
-                    goals[p].pop(0)
+                     goals[p].pop(0)
 
 
                 path = [path]
-                print("final")
+
+
+
+                print("final ll")
                 print(path)
                 print(goals)
+
                 print(lostleft)
-                #path = saved_path
+                #path = f_test_path
 
                 iter_width += 1
-                #t = oldb
+                t = oldb
 
 
         if t == -1:
@@ -328,7 +444,7 @@ def compute_heuristics(current, goals,exist):
             print(goal_index)
             print(curr_index)
 
-            print("here")
+            #print("here")
             h_value += (abs(goal_index[0] - curr_index[0])) + (abs(goal_index[1] - curr_index[1]))
 
             print(h_value)

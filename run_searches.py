@@ -8,6 +8,7 @@ from read_instance import import_instance
 from visualize import visualize_paths
 
 
+# prints the instance
 def print_instance(instance):
     for row in instance:
         for entry in row:
@@ -27,6 +28,7 @@ if __name__ == '__main__':
 
     for file in sorted(glob.glob(args.instance)):
 
+        # import the instance
         print('**** IMPORT INSTANCE ****')
         starts, goals, blank_start, blank_goal = import_instance(file)
         print('Starting Locations:')
@@ -34,7 +36,8 @@ if __name__ == '__main__':
         print('Goal Locations:')
         print_instance(goals)
 
-        searches = ['A*', 'IDA*', 'IDDFS']
+        # types of searches
+        searches = ['A*', 'IDA*', 'IDDFS']  # ADD YOUR SEARCH HERE and in the for loop
         paths = []
         for search in searches:
             print('**** Starting ' + search + ' Search ****')
@@ -57,8 +60,9 @@ if __name__ == '__main__':
                 if path is not None:
                     print('Finished IDDFS')
 
+        # call visualizer
         if not args.batch:
             for x in range(len(searches)):
                 if paths[x] is None:
                     continue
-                visualize_paths(paths[x], searches[x])
+                visualize_paths(paths[x], searches[x])  # refer to visualize for implementation

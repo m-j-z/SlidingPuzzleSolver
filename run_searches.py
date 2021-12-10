@@ -7,7 +7,8 @@ from a_star import a_star
 from ida_star import id_a_star
 from read_instance import import_instance
 from visualize import visualize_paths
-
+from divide_a_star import da_star
+from new_divide_astar import dac_a_star
 
 def print_instance(instance):
     for row in instance:
@@ -26,7 +27,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    time_out = 5  # in seconds
+    time_out = 30  # in seconds
 
     for file in sorted(glob.glob(args.instance)):
 
@@ -37,7 +38,8 @@ if __name__ == '__main__':
         print('Goal Locations:')
         print_instance(goals)
 
-        searches = ['A*', 'IDA*']
+        #searches = ['A*', 'IDA*','DACA*']
+        searches = ['DACA*']
         paths = []
         for search in searches:
             print('**** Starting ' + search + ' Search ****')
@@ -54,8 +56,19 @@ if __name__ == '__main__':
                 if path is not None:
                     print('Finished IDA*')
 
+            if search == 'DACA*':
+
+                #path = da_star(starts, goals)
+                path = dac_a_star(starts, goals)
+                paths.append(path)
+
+                if path is not None:
+                    print('Finished IDA*')
+
         if not args.batch:
             for x in range(len(searches)):
+                print("paths is")
+                print(paths)
                 if paths[x] is None:
                     continue
                 visualize_paths(paths[x], searches[x])

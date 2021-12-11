@@ -17,12 +17,12 @@ def update_grid(c, figure, locations,exist):
 
 
 def create_grid(r, c):
-    #size = r * c
-    size = 16
+    size = r * c
+    #size = 16
     figure = plt.figure()
     for x in range(1, size + 1):
-        axis = figure.add_subplot(4, 4, x)
-        #axis = figure.add_subplot(r, c, x)
+        #axis = figure.add_subplot(4, 4, x)
+        axis = figure.add_subplot(r, c, x)
         axis.xaxis.set_visible(False)
         axis.yaxis.set_visible(False)
 

@@ -11,6 +11,7 @@ def update_grid(c, figure, locations):
 
     # for each subplot
     for x in range(len(axis)):
+
         # get the index of tile x
         index = get_index(locations, str(x))
 
@@ -21,6 +22,13 @@ def update_grid(c, figure, locations):
         h = -(axis[x].bbox.height / 2)
         axis[index[0] * c + index[1]].set_title(title, y=1, pad=h)
 
+        if str(x) in exist:
+            index = get_index(locations, str(x))
+            title = locations[index[0]][index[1]]
+            if title == '0':
+                title = ''
+            h = -(axis[x].bbox.height / 2)
+            axis[index[0] * c + index[1]].set_title(title, y=1, pad=h)
 
 # r is the rows
 # c is the columns
@@ -33,7 +41,8 @@ def create_grid(r, c):
 
     # r * c number of subplots
     for x in range(1, size + 1):
-        axis = figure.add_subplot(r, c, x)
+        axis = figure.add_subplot(4, 4, x)
+        #axis = figure.add_subplot(r, c, x)
         axis.xaxis.set_visible(False)
         axis.yaxis.set_visible(False)
 
@@ -58,7 +67,11 @@ def visualize_paths(paths, name):
 
     # for each step in reaching goal state, update the graph
     for step in paths:
-        update_grid(cols, figure, step)
+        print("Steps")
+        print(step)
+        print(cols)
+        print(rows)
+        update_grid(cols, figure, step,exist)
         plt.pause(0.75)
 
     # show the graph

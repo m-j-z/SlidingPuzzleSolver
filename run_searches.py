@@ -6,7 +6,8 @@ from ida_star import id_a_star
 from id_dfs import id_depth_first
 from read_instance import import_instance
 from visualize import visualize_paths
-
+from divide_a_star import da_star
+from new_divide_astar import dac_a_star
 
 # prints the instance
 def print_instance(instance):
@@ -36,8 +37,9 @@ if __name__ == '__main__':
         print('Goal Locations:')
         print_instance(goals)
 
+
         # types of searches
-        searches = ['A*', 'IDA*', 'IDDFS']  # ADD YOUR SEARCH HERE and in the for loop
+        searches = ['A*', 'IDA*', 'IDDFS', 'DACA*']  # ADD YOUR SEARCH HERE and in the for loop
         paths = []
         for search in searches:
             print('**** Starting ' + search + ' Search ****')
@@ -54,6 +56,15 @@ if __name__ == '__main__':
                 if path is not None:
                     print('Finished IDA*')
 
+            if search == 'DACA*':
+
+                #path = da_star(starts, goals)
+                path = dac_a_star(starts, goals)
+                paths.append(path)
+
+                if path is not None:
+                    print('Finished DACA*')
+
             if search == 'IDDFS':
                 path = id_depth_first(starts, goals)
                 paths.append(path)
@@ -63,6 +74,8 @@ if __name__ == '__main__':
         # call visualizer
         if not args.batch:
             for x in range(len(searches)):
+                print("paths is")
+                print(paths)
                 if paths[x] is None:
                     continue
                 visualize_paths(paths[x], searches[x])  # refer to visualize for implementation

@@ -3,7 +3,7 @@ import time
 from a_star import swap
 
 # in seconds
-timeout = 180
+timeout = 5000
 
 
 def dac_a_star(starts, goals):
@@ -117,6 +117,8 @@ def dac_a_star(starts, goals):
                 print(saved_path)
 
                 path_list.append((path.copy()))
+                print("top path list is now ")
+                print(path_list)
                 losttop.insert(0, copy.deepcopy(started[0]))
                 path = copy.deepcopy(started)
 
@@ -180,6 +182,8 @@ def dac_a_star(starts, goals):
                 s_iter_height = iter_height
                 s_iter_width = iter_width
 
+                print("Final path before changes is")
+
                 while s_iter_height > 0 or s_iter_width > 0:
                     top_shaved = False
                     if s_iter_height != 0:
@@ -210,7 +214,7 @@ def dac_a_star(starts, goals):
 
                     print("After math left shave is ")
                     print(path)
-                    print("Iter is not")
+                    print("Iter is now")
                     print(iter_height)
                     print(iter_width)
 
@@ -220,10 +224,13 @@ def dac_a_star(starts, goals):
                     #     to_pop = to_linsert.pop(0).copy()
                     #     for s in i:
                     #         s.insert
-
-
-
-
+                #adding to end
+                for w in reversed(path_list):
+                    for y in reversed(w):
+                        print("ptinign y")
+                        print(y)
+                        to_finalize = y.copy()
+                        path.insert(0, to_finalize)
                 #path[0][0].insert(0,'1')
                 #
                 #path[0][1].insert(0,'5')
@@ -267,48 +274,23 @@ def dac_a_star(starts, goals):
                 saved_path = copy.deepcopy(path)
 
                 #rebuild
-                # s_iter_height = iter_height
-                # if s_iter_height != 0:
-                #     to_linsert = lostleft[len(lostleft) - iter_width]
-                #     to_l_rebuild = []
-                #     for l in to_linsert:
-                #         to_l_rebuild.append(l[0])
-                #     print("rebuild")
-                #     print(to_l_rebuild)
-                #     print(len(saved_path))
-                #     widd = len(saved_path[0])
-                #     for i in range(len(saved_path)):
-                #         # print(path[i])
-                #         # print(path[i][0])
-                #         for w in range(widd):
-                #             saved_path[i][w].insert(0, to_l_rebuild[w])
+
                 s_iter_height = iter_height
                 s_iter_width = iter_width
-                # while s_iter_height is not 0:
-                #     print("even shape top shave")
-                #     to_tinsert = losttop[s_iter_height-1]
-                #     for tomod in saved_path:
-                #         tomod.insert(0,to_tinsert.copy())
-                #     s_iter_height -= 1
-                # s_iter_width = iter_width
-                # while s_iter_width is not 0:
-                #     print("even shape left shave")
-                #     to_linsert = lostleft[len(lostleft) - s_iter_width]
-                #     to_l_rebuild = []
-                #     for l in to_linsert:
-                #         to_l_rebuild.append(l[0])
-                #     print("rebuild")
-                #     print(to_l_rebuild)
-                #     print(len(saved_path))
-                #     widd = len(saved_path[0])
-                #     for i in range(len(saved_path)):
-                #         #print(path[i])
-                #         #print(path[i][0])
-                #         for w in range(widd):
-                #             saved_path[i][w].insert(0,to_l_rebuild[w])
-                #     s_iter_width -= 1
+
+                print("leftpath is now")
+                print(saved_path)
+                print(path)
 
                 while s_iter_height != 0 or s_iter_width != 0:
+                    if s_iter_height != 0:
+                        print("even shape top shave")
+                        to_tinsert = losttop[s_iter_height-1]
+                        for tomod in path:
+                            tomod.insert(0,to_tinsert.copy())
+                        s_iter_height -= 1
+                    print("After math top shave is ")
+                    print(path)
                     if s_iter_width != 0:
                         print("even shape left shave")
                         to_linsert = lostleft[len(lostleft) - s_iter_width]
@@ -318,24 +300,24 @@ def dac_a_star(starts, goals):
                         print("rebuild")
                         print(to_l_rebuild)
                         print(len(saved_path))
-                        widd = len(saved_path[0])
-                        for i in range(len(saved_path)):
+                        widd = len(path[0])
+                        print("ylen and widd is ")
+                        print(len(saved_path))
+                        print(widd)
+
+                        for y in range(len(saved_path)):
                             #print(path[i])
                             #print(path[i][0])
-                            for w in range(widd):
-                                path[i][w].insert(0,to_l_rebuild[w])
+                            for z in range(widd):
+                                path[y][z].insert(0,to_l_rebuild[z])
+                                print("testing")
+                                print(y)
+                                print(z)
+                                print(path[y][z])
                         s_iter_width -= 1
                     print("After math left shave is ")
-                    if s_iter_height != 0:
-                        print("even shape top shave")
-                        to_tinsert = losttop[s_iter_height-1]
-                        for tomod in path:
-                            tomod.insert(0,to_tinsert.copy())
-                        s_iter_height -= 1
-                    print("After math top shave is ")
                     print(path)
 
-                    print(path)
 
 
                 #test
@@ -345,17 +327,18 @@ def dac_a_star(starts, goals):
                 #         print(y)
                 #         to_finalize = y.copy()
                 #         saved_path.insert(0, to_finalize)
-                print("to remove is")
-                remove = []
-                for mini in path:
-                    remove.append(mini[0].copy())
-                print(remove)
-                #goals.pop(0)
-                for w in remove:
-                    if str(w) in exist:
-                        exist.remove(w)
-                print("exist is now")
-                print(exist)
+
+                # print("to remove is")
+                # remove = []
+                # for mini in path:
+                #     remove.append(mini[0].copy())
+                # print(remove)
+                # #goals.pop(0)
+                # for w in remove:
+                #     if str(w) in exist:
+                #         exist.remove(w)
+                # print("exist is now")
+                # print(exist)
 
                 #f_test_path = copy.deepcopy(saved_path)
                 print("left path is")
@@ -371,16 +354,20 @@ def dac_a_star(starts, goals):
                 lostleft.insert(0, copy.deepcopy(started))
                 print("old path is ")
                 print(path)
+                print("top path list is now ")
+                print(path_list)
                 #create new path for later
                 for p in range(width):
-
-                     remove = path[p].pop(0)
-                     exist.remove(remove)
                      print(path[p][0])
+                     remove = path[p].pop(0)
+                     if remove in exist:
+                        exist.remove(remove)
+
 
                      goals[p].pop(0)
 
-
+                print("exist is now")
+                print(exist)
                 path = [path]
 
 
@@ -440,16 +427,16 @@ def compute_heuristics(current, goals,exist):
 
             curr_index = get_index(current, str(x))
             goal_index = get_index(goals, str(x))
-            print("g and c index are ")
-            print(goal_index)
-            print(curr_index)
+            # print("g and c index are ")
+            # print(goal_index)
+            # print(curr_index)
 
             #print("here")
             h_value += (abs(goal_index[0] - curr_index[0])) + (abs(goal_index[1] - curr_index[1]))
 
-            print(h_value)
-
-    print(h_value)
+    #         print(h_value)
+    #
+    # print(h_value)
 
     return h_value
 def n_compute_heuristics(current, goals,corrected):
@@ -459,9 +446,9 @@ def n_compute_heuristics(current, goals,corrected):
     for x in range(1, size):
         down = int(x / len(current[0]))
         left = int(x % len(current[0]))
-        print("Down and left are")
-        print(down, left)
-        print(current[down][left])
+        # print("Down and left are")
+        # print(down, left)
+        # print(current[down][left])
 
 
         if not (current[down][left]) == 'x':
@@ -480,19 +467,19 @@ def n_compute_heuristics(current, goals,corrected):
                 #print(curr_index)
                 #print(goal_index)
                 h_value += (abs(goal_index[0] - curr_index[0])) + (abs(goal_index[1] - curr_index[1]))
-                print("cur hval")
-                print(h_value)
+                # print("cur hval")
+                # print(h_value)
 
     return h_value
 
 
 def is_goal(curr, goals):
     checker = copy.deepcopy(curr)
-    print("Checking Goal")
-    print(goals)
+    #print("Checking Goal")
+    #print(goals)
     size = len(checker) * len(checker[0])
-    print("size is")
-    print(size)
+    #print("size is")
+    #print(size)
     for x in range(1, size):
         down = int(x / len(checker[0]))
         left = int(x % len(checker[0]))
@@ -501,8 +488,9 @@ def is_goal(curr, goals):
         if (goals[down][left]) == 'x':
             #print("found x")
             checker[down][left] = 'x'
-    print("To compare to goal is")
-    print(checker)
+    #print("To compare to goal is")
+    #print(checker)
+
     return checker == goals
 
 def get_successors(curr):
@@ -526,11 +514,11 @@ def a_star(path, goals, g, bound, start_time,true_goal,exist):
 
     node = path[-1]
 
-    print("Start  of new A*")
-    print("node is")
-    print(node)
-    print("goal is")
-    print(goals)
+    # print("Start  of new A*")
+    # print("node is")
+    # print(node)
+    # print("goal is")
+    # print(goals)
 
 
     f = g + compute_heuristics(node, true_goal,exist)

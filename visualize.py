@@ -22,13 +22,13 @@ def update_grid(c, figure, locations):
         h = -(axis[x].bbox.height / 2)
         axis[index[0] * c + index[1]].set_title(title, y=1, pad=h)
 
-        if str(x) in exist:
-            index = get_index(locations, str(x))
-            title = locations[index[0]][index[1]]
-            if title == '0':
-                title = ''
-            h = -(axis[x].bbox.height / 2)
-            axis[index[0] * c + index[1]].set_title(title, y=1, pad=h)
+
+        index = get_index(locations, str(x))
+        title = locations[index[0]][index[1]]
+        if title == '0':
+            title = ''
+        h = -(axis[x].bbox.height / 2)
+        axis[index[0] * c + index[1]].set_title(title, y=1, pad=h)
 
 # r is the rows
 # c is the columns
@@ -41,8 +41,8 @@ def create_grid(r, c):
 
     # r * c number of subplots
     for x in range(1, size + 1):
-        axis = figure.add_subplot(4, 4, x)
-        #axis = figure.add_subplot(r, c, x)
+        #axis = figure.add_subplot(4, 4, x)
+        axis = figure.add_subplot(r, c, x)
         axis.xaxis.set_visible(False)
         axis.yaxis.set_visible(False)
 
@@ -71,7 +71,7 @@ def visualize_paths(paths, name):
         print(step)
         print(cols)
         print(rows)
-        update_grid(cols, figure, step,exist)
+        update_grid(cols, figure, step)
         plt.pause(0.75)
 
     # show the graph

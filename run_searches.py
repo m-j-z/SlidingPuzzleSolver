@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
 
         # types of searches
-        searches = ['DACA*']  # ADD YOUR SEARCH HERE and in the for loop
+        searches = ['A*', 'IDA*' ,'IDDFS' ,'DACA*']  # ADD YOUR SEARCH HERE and in the for loop
         paths = []
         for search in searches:
             print('**** Starting ' + search + ' Search ****')

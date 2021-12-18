@@ -1,13 +1,44 @@
 import copy
 import time
+
 from a_star import compute_heuristics, get_index, swap
 
 # in seconds
-timeout = 2
+timeout = 60
 
 
+# checks if the state of curr is the same as goals
+def is_goal(curr, goals):
+    return curr == goals
+
+
+# curr is a list of lists
+# finds the successors of a list
+def get_successors(curr):
+    # a list of all possible childresn of curr
+    successors = []
+    # get the index of the blank tile
+    index = get_index(curr, '0')  # refer to a_star for implementation
+
+    # create all possible children
+    moves = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    for move in moves:
+        tmp = copy.deepcopy(curr)
+        next_index = (index[0] + move[0], index[1] + move[1])
+
+        # check if that the move is legal
+        if next_index[0] < 0 or next_index[0] > len(curr) - 1 or next_index[1] < 0 or next_index[1] > len(curr[0]) - 1:
+            continue
+
+        # swap current to child location
+        swap(tmp, index, next_index)  # refer to a_star for implementaiton
+        successors.append(copy.deepcopy(tmp))
+    return successors
+
+
+# starts is the initial positions of the tiles
+# goals is the final position of the tiles
 def id_a_star(starts, goals):
-    
     bound = compute_heuristics(starts, goals)
     path = [starts]
 
@@ -16,38 +47,29 @@ def id_a_star(starts, goals):
     while True:
 
         t = a_star(path, goals, 0, bound, start_time)
+        # if a path is found
         if t == -1:
             now = time.process_time() - start_time
             print('IDA* took ' + str(now) + ' seconds to complete.')
             return path
+        # if there are no paths
         if t == float('inf'):
             return None
+        # if it has timed out
         if t == float('-inf'):
             print('Timed out!')
             return None
         bound = t
-    
+
     return None
 
 
-def is_goal(curr, goals):
-    return curr == goals
-
-
-def get_successors(curr):
-    successors = []
-    index = get_index(curr, '0')
-    moves = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-    for move in moves:
-        tmp = copy.deepcopy(curr)
-        next_index = (index[0] + move[0], index[1] + move[1])
-        if next_index[0] < 0 or next_index[0] > len(curr) - 1 or next_index[1] < 0 or next_index[1] > len(curr[0]) - 1:
-            continue
-        swap(tmp, index, next_index)
-        successors.append(copy.deepcopy(tmp))
-    return successors
-
-
+# path is the path from starting positions to goal positions
+# goals is the goal position
+# g is the g value (a.k.a the distance traveled)
+# bound is the maximum f value allowed for the search
+# start_tim is the maximum run time allowed until the function will time out
+# recursive implementation of A* search
 def a_star(path, goals, g, bound, start_time):
 
     now = time.process_time() - start_time
@@ -55,21 +77,35 @@ def a_star(path, goals, g, bound, start_time):
         return float('-inf')
     
     node = path[-1]
+
+    # computes the f value of the node
     f = g + compute_heuristics(node, goals)
+    # checks if f value violates the bound
     if f > bound:
         return f
+
+    # return if node state is the goal state
     if is_goal(node, goals):
         return -1
+
     m = float('inf')
+    # get all successors of the node
     successors = get_successors(node)
     for successor in successors:
         if successor not in path:
             path.append(copy.deepcopy(successor))
+            # call with new arguments
             t = a_star(path, goals, g + 1, bound, start_time)
+
+            # if it has timed out
             if t == float('-inf'):
                 return float('-inf')
+
+            # if paths has been found
             if t == -1:
                 return -1
+
+            # if path has not been found but there are still children nodes to check
             if t < m:
                 m = t
             path.pop()

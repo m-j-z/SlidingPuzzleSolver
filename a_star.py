@@ -3,7 +3,7 @@ import copy
 import time
 
 # in seconds
-timeout = 2
+timeout = 60
 
 
 def move(loc, d):
@@ -11,18 +11,28 @@ def move(loc, d):
     return loc[0] + directions[d][0], loc[1] + directions[d][1]
 
 
+# starts is a list of list
+# curr is a tuple or list of 2 values
+# child is a tuple or list of 2 values
+# swaps the values inside starts from index of curr to index of child
 def swap(starts, curr, child):
     tmp = starts[curr[0]][curr[1]]
     starts[curr[0]][curr[1]] = starts[child[0]][child[1]]
     starts[child[0]][child[1]] = tmp
     
-    
+
+# val is a value
+# li is a list of lists
+# gets the index of val from li
+# i.e. will return (2, 1) if val is at row 2 column 1 in the list li
 def get_index(li, val):
     for i, x in enumerate(li):
         if val in x:
-            return (i, x.index(val))
+            return i, x.index(val)
     
 
+# computes heuristics for tile puzzles
+# computes the distance from the values to the goal, except for 0 (the blank tile)
 def compute_heuristics(current, goals):
     size = len(current) * len(current[0])
     

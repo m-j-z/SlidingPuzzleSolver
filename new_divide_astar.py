@@ -490,6 +490,7 @@ def is_goal(curr, goals):
             checker[down][left] = 'x'
     #print("To compare to goal is")
     #print(checker)
+
     return checker == goals
 
 def get_successors(curr):

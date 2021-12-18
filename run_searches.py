@@ -1,15 +1,15 @@
 import argparse
 import glob
-import concurrent.futures as futures
-import sys
 
 from a_star import a_star
 from ida_star import id_a_star
+from id_dfs import id_depth_first
 from read_instance import import_instance
 from visualize import visualize_paths
 from divide_a_star import da_star
 from new_divide_astar import dac_a_star
 
+# prints the instance
 def print_instance(instance):
     for row in instance:
         for entry in row:
@@ -27,10 +27,9 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    time_out = 30  # in seconds
-
     for file in sorted(glob.glob(args.instance)):
 
+        # import the instance
         print('**** IMPORT INSTANCE ****')
         starts, goals, blank_start, blank_goal = import_instance(file)
         print('Starting Locations:')
@@ -38,8 +37,9 @@ if __name__ == '__main__':
         print('Goal Locations:')
         print_instance(goals)
 
-        #searches = ['A*', 'IDA*','DACA*']
-        searches = ['DACA*']
+
+        # types of searches
+        searches = ['A*', 'IDA*', 'IDDFS', 'DACA*']  # ADD YOUR SEARCH HERE and in the for loop
         paths = []
         for search in searches:
             print('**** Starting ' + search + ' Search ****')
@@ -63,12 +63,19 @@ if __name__ == '__main__':
                 paths.append(path)
 
                 if path is not None:
-                    print('Finished IDA*')
+                    print('Finished DACA*')
 
+            if search == 'IDDFS':
+                path = id_depth_first(starts, goals)
+                paths.append(path)
+                if path is not None:
+                    print('Finished IDDFS')
+
+        # call visualizer
         if not args.batch:
             for x in range(len(searches)):
                 print("paths is")
                 print(paths)
                 if paths[x] is None:
                     continue
-                visualize_paths(paths[x], searches[x])
+                visualize_paths(paths[x], searches[x])  # refer to visualize for implementation

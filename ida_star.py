@@ -36,6 +36,24 @@ def get_successors(curr):
     return successors
 
 
+def sort_successors(successors, goals, g):
+    successors_f = []
+    for successor in successors:
+        f = g + compute_heuristics(successor, goals)
+        successors_f.append(f)
+
+    for i in range(1, len(successors_f)):
+        key = successors_f[i]
+        tmp = successors[i]
+        j = i - 1
+        while j >= 0 and key < successors_f[j]:
+            successors_f[j + 1] = successors_f[j]
+            successors[j + 1] = successors[j]
+            j -= 1
+        successors_f[j + 1] = key
+        successors[j + 1] = tmp
+
+
 # starts is the initial positions of the tiles
 # goals is the final position of the tiles
 def id_a_star(starts, goals):
@@ -91,6 +109,7 @@ def a_star(path, goals, g, bound, start_time):
     m = float('inf')
     # get all successors of the node
     successors = get_successors(node)
+    sort_successors(successors, goals, g)
     for successor in successors:
         if successor not in path:
             path.append(copy.deepcopy(successor))

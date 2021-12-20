@@ -6,12 +6,7 @@ from ida_star import id_a_star
 from id_dfs import id_depth_first
 from read_instance import import_instance
 from visualize import visualize_paths
-<<<<<<< HEAD
-from divide_a_star import da_star
-from new_divide_astar import dac_a_star
-=======
 from divide_astar import da_star
->>>>>>> 856cbe0 (added stats to a_star, will continue for rest)
 
 # prints the instance
 def print_instance(instance):

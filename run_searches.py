@@ -6,7 +6,7 @@ from ida_star import id_a_star
 from id_dfs import id_depth_first
 from read_instance import import_instance
 from visualize import visualize_paths
-
+from divide_astar import da_star
 
 # prints the instance
 def print_instance(instance):
@@ -36,33 +36,64 @@ if __name__ == '__main__':
         print('Goal Locations:')
         print_instance(goals)
 
+
         # types of searches
-        searches = ['A*', 'IDA*', 'IDDFS']  # ADD YOUR SEARCH HERE and in the for loop
+        searches = ['A*', 'IDA*' ,'IDDFS' ,'DACA*']  # ADD YOUR SEARCH HERE and in the for loop
         paths = []
         for search in searches:
-            print('**** Starting ' + search + ' Search ****')
+            print('\n**** Starting ' + search + ' Search ****')
 
             if search == 'A*':
-                path = a_star(starts, goals, blank_start)
+                path,nodes_expanded,nodes_generated = a_star(starts, goals, blank_start)
                 paths.append(path)
                 if path is not None:
-                    print('Finished A*')
+                    print('A* found a solution!')
+                    print('Expanded Nodes:  ' + str(nodes_expanded))
+                    print('Generated Nodes:  ' + str(nodes_generated))
+                else:
+                   print('A* failed to find a solution in the given time')
 
             if search == 'IDA*':
                 path = id_a_star(starts, goals)
                 paths.append(path)
                 if path is not None:
-                    print('Finished IDA*')
+                    print('IDA* found a solution!')
+                else:
+                   print('IDA* failed to find a solution in the given time')
+
+            if search == 'DACA*':
+
+                #path = da_star(starts, goals)
+                path = da_star(starts, goals)
+                paths.append(path)
+
+                if path is not None:
+                    print('DACA* found a solution!')
+                else:
+                   print('DACA* failed to find a solution in the given time')
 
             if search == 'IDDFS':
                 path = id_depth_first(starts, goals)
                 paths.append(path)
                 if path is not None:
-                    print('Finished IDDFS')
+                    print('IDDFS found a solution!')
+                else:
+                   print('IDDFS* failed to find a solution in the given time')
+
+
+
+            #if search == 'BFS':
+            #    path = bfs(starts, goals, blank_start)
+            #    paths.append(path)
+            #    if path is not None:
+            #        print('Finished BFS')
+
 
         # call visualizer
         if not args.batch:
             for x in range(len(searches)):
+                #print("paths are")
+                #print(paths)
                 if paths[x] is None:
                     continue
                 visualize_paths(paths[x], searches[x])  # refer to visualize for implementation

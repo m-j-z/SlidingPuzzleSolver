@@ -76,10 +76,15 @@ def a_star(starts, goals, blank_start):
             'positions': copy.deepcopy(starts), 'parent': None}
     push_node(open_list, root)
     closed_list[(root['loc'], root['timestep'])] = root
+    nodes_generated = 1
+    nodes_expanded = 0
+
+
 
     start_time = time.process_time()
     while len(open_list) > 0:
         curr = pop_node(open_list)
+        nodes_expanded += 1
 
         now = time.process_time() - start_time
         if now > timeout:
@@ -88,7 +93,7 @@ def a_star(starts, goals, blank_start):
 
         if curr['positions'] == goals:
             print('A* took ' + str(now) + ' seconds to complete.')
-            return get_path(curr)
+            return (get_path(curr),nodes_expanded,nodes_generated)
         
         for d in range(4):
             child_loc = move(curr['loc'], d)
@@ -109,8 +114,10 @@ def a_star(starts, goals, blank_start):
                 if compare_nodes(child, existing_node):
                     closed_list[(child['loc'], child['timestep'])] = child
                     push_node(open_list, child)
+                    nodes_generated +=1
             else:
                 closed_list[(child['loc'], child['timestep'])] = child
                 push_node(open_list, child)
+                nodes_generated +=1
             
     return None

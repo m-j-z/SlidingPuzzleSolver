@@ -4,7 +4,7 @@ import time
 from ida_star import is_goal, get_successors
 
 # in seconds
-timeout = 60
+timeout = 4500
 
 
 # starts is the initial position of the tiles

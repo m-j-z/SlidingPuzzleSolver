@@ -4,7 +4,7 @@ import time
 from a_star import compute_heuristics, get_index, swap
 
 # in seconds
-timeout = 60
+timeout = 4500
 
 
 # checks if the state of curr is the same as goals
@@ -121,8 +121,6 @@ def a_star(path, goals, g, bound, start_time, generated, expanded):
             path.append(copy.deepcopy(successor))
             # call with new arguments
             t, x, y = a_star(path, goals, g + 1, bound, start_time, generated, expanded)
-            generated += x
-            expanded += y
 
             # if it has timed out
             if t == float('-inf'):

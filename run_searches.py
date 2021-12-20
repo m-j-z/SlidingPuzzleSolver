@@ -68,14 +68,18 @@ if __name__ == '__main__':
                 if path is not None:
                     print('Finished IDDFS')
 
-            print('Path length of:', len(path) - 1)
-            print(path)
+            if path is None and args.batch:
+                print('Failed at:', file)
+                print('Timed out on a single instance, assuming will fail for others.')
+                break
+
+            if path is not None:
+                print('Path length of:', len(path) - 1)
+                print(path)
 
         # call visualizer
         if not args.batch:
             for x in range(len(searches)):
-                print("paths is")
-                print(paths)
                 if paths[x] is None:
                     continue
                 visualize_paths(paths[x], searches[x])  # refer to visualize for implementation

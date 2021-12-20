@@ -3,7 +3,7 @@ import copy
 import time
 
 # in seconds
-timeout = 60
+timeout = 4500
 
 
 def move(loc, d):

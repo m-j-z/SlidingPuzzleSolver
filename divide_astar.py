@@ -6,7 +6,7 @@ from a_star import swap
 timeout = 5000
 
 
-def da_star(starts, goals):
+def dac_star(starts, goals):
     exist = []
     for g in range(len(goals) * len(goals[0])):
         exist.append(str(g))

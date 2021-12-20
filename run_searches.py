@@ -6,7 +6,7 @@ from ida_star import id_a_star
 from id_dfs import id_depth_first
 from read_instance import import_instance
 from visualize import visualize_paths
-from divide_astar import da_star
+from divide_astar import dac_star
 
 # prints the instance
 def print_instance(instance):
@@ -64,7 +64,7 @@ if __name__ == '__main__':
             if search == 'DACA*':
 
                 #path = da_star(starts, goals)
-                path = da_star(starts, goals)
+                path = dac_star(starts, goals)
                 paths.append(path)
 
                 if path is not None:

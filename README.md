@@ -14,7 +14,7 @@ DACA* as referenced and adapated from [here.](https://www.kopf.com.br/kaplof/how
 
 ## Test Instances
 
-For our searches, we ran them with the following instances.
+For our searches, we ran them with the following instances:
 
 - Test 1 - 3 are 3x3 tile puzzles.
 - Test 4 - 6 are 3x4 tile puzzles.

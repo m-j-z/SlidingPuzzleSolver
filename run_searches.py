@@ -7,7 +7,8 @@ from id_dfs import id_depth_first
 from read_instance import import_instance
 from visualize import visualize_paths
 from new_divide_astar import dac_a_star
-
+from phs import phs
+from bfs import bfs
 
 # prints the instance
 def print_instance(instance):
@@ -38,7 +39,8 @@ if __name__ == '__main__':
         print_instance(goals)
 
         # types of searches
-        searches = ['A*', 'IDA*', 'IDDFS', 'DACA*']  # ADD YOUR SEARCH HERE and in the for loop
+        #searches = ['A*', 'IDA*', 'IDDFS', 'DACA*']  # ADD YOUR SEARCH HERE and in the for loop
+        searches = ['IDA*','BFS']  # ADD YOUR SEARCH HERE and in the for loop
         paths = []
         for search in searches:
             print('**** Starting ' + search + ' Search ****')
@@ -67,6 +69,18 @@ if __name__ == '__main__':
                 paths.append(path)
                 if path is not None:
                     print('Finished IDDFS')
+
+            if search == 'PHS':
+                path = phs(starts, goals,blank_start)
+                paths.append(path)
+                if path is not None:
+                    print('Finished PHS')
+            
+            if search == 'BFS':
+                path = bfs(starts, goals,blank_start)
+                paths.append(path)
+                if path is not None:
+                    print('Finished BFS')
 
             if path is None and args.batch:
                 print('Failed at:', file)

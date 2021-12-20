@@ -67,10 +67,10 @@ def visualize_paths(paths, name):
 
     # for each step in reaching goal state, update the graph
     for step in paths:
-        print("Steps")
-        print(step)
-        print(cols)
-        print(rows)
+        #print("Steps")
+        #print(step)
+        #print(cols)
+        #print(rows)
         update_grid(cols, figure, step)
         plt.pause(0.75)
 

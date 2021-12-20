@@ -61,14 +61,20 @@ def id_a_star(starts, goals):
     path = [starts]
 
     start_time = time.process_time()
+    generated_nodes = 0
+    expanded_nodes = 0
 
     while True:
 
-        t = a_star(path, goals, 0, bound, start_time)
+        t, generated, expanded = a_star(path, goals, 0, bound, start_time, generated_nodes, expanded_nodes)
+        generated_nodes += generated
+        expanded_nodes += expanded
         # if a path is found
         if t == -1:
             now = time.process_time() - start_time
             print('IDA* took ' + str(now) + ' seconds to complete.')
+            print('Generated', generated_nodes, 'nodes.')
+            print('Expanded', expanded_nodes, 'nodes.')
             return path
         # if there are no paths
         if t == float('inf'):
@@ -79,20 +85,18 @@ def id_a_star(starts, goals):
             return None
         bound = t
 
-    return None
-
 
 # path is the path from starting positions to goal positions
 # goals is the goal position
 # g is the g value (a.k.a the distance traveled)
 # bound is the maximum f value allowed for the search
-# start_tim is the maximum run time allowed until the function will time out
+# start_time is the maximum run time allowed until the function will time out
 # recursive implementation of A* search
-def a_star(path, goals, g, bound, start_time):
+def a_star(path, goals, g, bound, start_time, generated, expanded):
 
     now = time.process_time() - start_time
     if now > timeout:
-        return float('-inf')
+        return float('-inf'), generated, expanded
     
     node = path[-1]
 
@@ -100,33 +104,37 @@ def a_star(path, goals, g, bound, start_time):
     f = g + compute_heuristics(node, goals)
     # checks if f value violates the bound
     if f > bound:
-        return f
+        return f, generated, expanded
 
     # return if node state is the goal state
     if is_goal(node, goals):
-        return -1
+        return -1, generated, expanded
 
     m = float('inf')
     # get all successors of the node
     successors = get_successors(node)
+    expanded += 1
     sort_successors(successors, goals, g)
     for successor in successors:
         if successor not in path:
+            generated += 1
             path.append(copy.deepcopy(successor))
             # call with new arguments
-            t = a_star(path, goals, g + 1, bound, start_time)
+            t, x, y = a_star(path, goals, g + 1, bound, start_time, generated, expanded)
+            generated += x
+            expanded += y
 
             # if it has timed out
             if t == float('-inf'):
-                return float('-inf')
+                return float('-inf'), generated, expanded
 
             # if paths has been found
             if t == -1:
-                return -1
+                return -1, generated, expanded
 
             # if path has not been found but there are still children nodes to check
             if t < m:
                 m = t
             path.pop()
-    return m
+    return m, generated, expanded
     

@@ -68,6 +68,9 @@ if __name__ == '__main__':
                 if path is not None:
                     print('Finished IDDFS')
 
+            print('Path length of:', len(path) - 1)
+            print(path)
+
         # call visualizer
         if not args.batch:
             for x in range(len(searches)):

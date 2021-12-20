@@ -78,8 +78,11 @@ def a_star(starts, goals, blank_start):
     closed_list[(root['loc'], root['timestep'])] = root
 
     start_time = time.process_time()
+    expanded = 0
+    generated = 0
     while len(open_list) > 0:
         curr = pop_node(open_list)
+        expanded += 1
 
         now = time.process_time() - start_time
         if now > timeout:
@@ -88,6 +91,8 @@ def a_star(starts, goals, blank_start):
 
         if curr['positions'] == goals:
             print('A* took ' + str(now) + ' seconds to complete.')
+            print('Generated', generated, 'nodes.')
+            print('Expanded', expanded, 'nodes.')
             return get_path(curr)
         
         for d in range(4):
@@ -102,6 +107,7 @@ def a_star(starts, goals, blank_start):
                      'timestep': curr['timestep'] + 1,
                      'positions': copy.deepcopy(curr['positions']),
                      'parent': curr}
+            generated += 1
             swap(child['positions'], curr['loc'], child['loc'])
             child['h_val'] = compute_heuristics(child['positions'], goals)
             if (child['loc'], child['timestep']) in closed_list:
